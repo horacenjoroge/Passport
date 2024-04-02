@@ -7,6 +7,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const bcrypt = require("bcrypt");
 
 const mongoDb = "mongodb+srv://horacenjorge:0306mwaura@cluster0.wb3f899.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0" ;
 mongoose.connect(mongoDb);
@@ -39,17 +40,9 @@ app.listen(3000, () => console.log("app listening on port 3000!"));
 
 app.get("/sign-up", (req, res) => res.render("sign-up-form"));
 
-app.post("/sign-up", async (req, res, next) => {
-    try {
-        const user = new User({
-            username: req.body.username,
-            password: req.body.password
-        });
-        const result = await user.save();
-        res.redirect("/");
-    } catch (err) {
-        return next(err);
-    };
+bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
+    // if err, do something
+    // otherwise, store hashedPassword in DB
 });
 
 passport.use(
